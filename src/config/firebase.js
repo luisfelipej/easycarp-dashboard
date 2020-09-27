@@ -19,5 +19,6 @@ const app = firebase.initializeApp(firebaseConfig)
 export const auth = app.auth()
 // db
 export const userRef = app.firestore().collection(`users`)
+export const taskRef = app.firestore().collection(`tasks`)
 
 export default app

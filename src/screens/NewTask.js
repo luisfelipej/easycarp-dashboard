@@ -3,27 +3,61 @@ import { useHistory } from 'react-router-dom'
 import {
   Flex,
   Button,
+  InputGroup,
+  InputLeftAddon,
   Input,
   FormControl,
   FormLabel,
+  FormHelperText,
   CloseButton,
   Stack,
   Editable,
   EditableInput,
   EditablePreview,
   Grid,
+  useToast,
 } from '@chakra-ui/core'
+import { taskRef } from '../config/firebase'
 
 const initialState = {
   title: `Nuevo trabajo`,
+  widthCarp: null,
+  highCarp: null,
+  estimatedTime: null,
+  realTime: null,
 }
 
 function NewTask() {
   const [state, setState] = useState(initialState)
   const history = useHistory()
+  const toast = useToast()
   function handleChange(event) {
     const { id, value } = event.target
     setState((prevState) => ({ ...prevState, [id]: value }))
+  }
+  async function createTask() {
+    try {
+      const { widthCarp, highCarp, realTime, estimatedTime, ...task } = state
+      await taskRef.add({
+        ...task,
+        widthCarp: Number(widthCarp),
+        highCarp: Number(highCarp),
+        realTime: Number(realTime),
+        estimatedTime: Number(estimatedTime),
+      })
+      toast({
+        title: `Trabajo guardado 🔧`,
+        status: `success`,
+        duration: 3000,
+      })
+      history.goBack()
+    } catch (error) {
+      toast({
+        title: `No se ha podido guardar el nuevo trabajo`,
+        status: `error`,
+        duration: 3000,
+      })
+    }
   }
   return (
     <Flex width="100%" alignItems="center" flexDirection="column">
@@ -61,23 +95,43 @@ function NewTask() {
         </Editable>
         <Stack marginY="4" spacing="3">
           <FormControl>
-            <FormLabel>Input</FormLabel>
-            <Input onChange={handleChange} />
+            <FormLabel htmlFor="widthCarp">Ancho carpa</FormLabel>
+            <Input
+              type="number"
+              id="widthCarp"
+              autoFocus
+              onChange={handleChange}
+            />
+            <FormHelperText id="helper-widthCarp">
+              Unidad: Metros
+            </FormHelperText>
           </FormControl>
           <FormControl>
-            <FormLabel>Input</FormLabel>
-            <Input onChange={handleChange} />
+            <FormLabel htmlFor="highCarp">Largo carpa</FormLabel>
+            <Input type="number" id="highCarp" onChange={handleChange} />
+            <FormHelperText id="helper-highCarp">Unidad: Metros</FormHelperText>
           </FormControl>
           <FormControl>
-            <FormLabel>Input</FormLabel>
-            <Input onChange={handleChange} />
+            <FormLabel htmlFor="estimatedTime">Tiempo estimad</FormLabel>
+            <Input type="number" id="estimatedTime" onChange={handleChange} />
+            <FormHelperText id="helper-estimatedTime">
+              Unidad: Días
+            </FormHelperText>
           </FormControl>
           <FormControl>
-            <FormLabel>Input</FormLabel>
-            <Input onChange={handleChange} />
+            <FormLabel htmlFor="realTime">Tiempo real</FormLabel>
+            <Input type="number" id="realTime" onChange={handleChange} />
+            <FormHelperText id="helper-realTime">Unidad: Días</FormHelperText>
+          </FormControl>
+          <FormControl>
+            <FormLabel htmlFor="phone">Contacto</FormLabel>
+            <InputGroup>
+              <InputLeftAddon>+569</InputLeftAddon>
+              <Input type="tel" id="phone" onChange={handleChange} />
+            </InputGroup>
           </FormControl>
         </Stack>
-        <Button variantColor="teal" leftIcon="plus-square">
+        <Button onClick={createTask} variantColor="teal" leftIcon="plus-square">
           Añadir
         </Button>
       </Grid>

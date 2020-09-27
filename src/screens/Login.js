@@ -21,6 +21,7 @@ function Login() {
   const [state, setState] = useState(initialState)
   const { logIn } = useAuth()
   const toast = useToast()
+
   async function onSubmit(e) {
     setState((prevState) => ({ ...prevState, isLoading: true }))
     e.preventDefault()
@@ -42,6 +43,7 @@ function Login() {
       setState((prevState) => ({ ...prevState, isLoading: false }))
     }
   }
+
   function handleChange(event) {
     const { id, value } = event.target
     setState((prevState) => ({ ...prevState, [id]: value }))
