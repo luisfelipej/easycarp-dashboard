@@ -9,11 +9,11 @@ function Layout({ children }) {
       <Flex
         padding="5"
         justifyContent="space-between"
-        alignItems="center"
-        backgroundColor="teal.400"
+        alignItems="baseline"
+        backgroundColor="teal.500"
       >
         <Text color="gray.50">EasyCarp Dashboard</Text>
-        <Button onClick={logOut} variant="link" variantColor="white">
+        <Button onClick={logOut} variant="link" color="gray.50">
           Salir
         </Button>
       </Flex>

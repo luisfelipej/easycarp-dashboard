@@ -1,12 +1,9 @@
 import React, { useState } from 'react'
 import {
-  Box,
-  Text,
   Input,
   Flex,
   FormControl,
   FormLabel,
-  FormHelperText,
   useToast,
   Button,
 } from '@chakra-ui/core'

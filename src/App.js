@@ -2,7 +2,7 @@ import React, { Suspense } from 'react'
 import { Spinner } from '@chakra-ui/core'
 import { useAuth } from './context'
 const Login = React.lazy(() => import(`./screens/Login`))
-const MainApp = React.lazy(() => import(`./screens/MainApp`))
+const MainApp = React.lazy(() => import(`./MainApp`))
 const Layout = React.lazy(() => import(`./Layout`))
 //components
 function App() {
