@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import React, { Suspense } from 'react'
+import { Spinner } from '@chakra-ui/core'
+import { useAuth } from './context'
+const Login = React.lazy(() => import(`./screens/Login`))
+const MainApp = React.lazy(() => import(`./screens/MainApp`))
+const Layout = React.lazy(() => import(`./Layout`))
+//components
 function App() {
+  const { user } = useAuth()
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Suspense
+      fallback={
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+        />
+      }
+    >
+      {user ? (
+        <Layout>
+          <MainApp />
+        </Layout>
+      ) : (
+        <Login />
+      )}
+    </Suspense>
+  )
 }
 
-export default App;
+export default App
