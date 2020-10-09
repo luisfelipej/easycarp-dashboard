@@ -20,5 +20,8 @@ export const auth = app.auth()
 // db
 export const userRef = app.firestore().collection(`users`)
 export const taskRef = app.firestore().collection(`tasks`)
+// storage
+export const storage = app.storage()
+export const storageRef = storage.ref()
 
 export default app

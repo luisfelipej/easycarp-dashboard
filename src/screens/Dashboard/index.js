@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Flex, Text, Button, IconButton, useToast, Grid } from '@chakra-ui/core'
+import {
+  Flex,
+  Text,
+  Button,
+  IconButton,
+  useToast,
+  Grid,
+  Spinner,
+} from '@chakra-ui/core'
 import { taskRef } from '../../config/firebase'
 import { useAuth } from '../../context'
 import Card from './Card'
+import Skeleton from './Skeleton'
 
 const initialState = {
   tasks: [],
@@ -42,7 +51,7 @@ function MainApp() {
   return (
     <Flex width="100%" flexDirection="column">
       <Flex width="100%" justifyContent="space-between" alignItems="baseline">
-        <Text fontSize="2xl">Hola, {user.name}</Text>
+        <Text fontSize="2xl">Hola, {user.name.split(` `)[0]}</Text>
         <Flex>
           <IconButton
             marginRight="2"
@@ -59,9 +68,11 @@ function MainApp() {
         </Flex>
       </Flex>
       <Grid gap="2" gridTemplateColumns="repeat(auto-fit, minmax(49%, 1fr))">
-        {tasks.map((task) => (
-          <Card key={task.uid} {...task} />
-        ))}
+        {isLoading ? (
+          <Skeleton />
+        ) : (
+          tasks.map((task) => <Card key={task.uid} {...task} />)
+        )}
       </Grid>
     </Flex>
   )
